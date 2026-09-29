@@ -11,7 +11,7 @@
   <description>sample api module for the multi-module test project</description>
   <properties>
     <war.name>sample-multi-module</war.name>
-    <tomcat.version>8.5.51</tomcat.version>
+    <tomcat.version>9.0.121</tomcat.version>
   </properties>
   <profiles>
     <!-- Jenkins by default defines a property BUILD_NUMBER which is used to
@@ -70,8 +70,8 @@
       <version>${spring-boot.version}</version>
       <scope>provided</scope>
       <exclusions>
-        <!-- tomcat-embed-logging-juli is not published for Tomcat 8.5.x; its
-             classes are bundled in tomcat-embed-core from 8.5.0 onwards. -->
+        <!-- tomcat-embed-logging-juli is not published beyond Tomcat 8.0.x;
+             its classes are bundled in tomcat-embed-core from 8.5.0 onwards. -->
         <exclusion>
           <groupId>org.apache.tomcat.embed</groupId>
           <artifactId>tomcat-embed-logging-juli</artifactId>
@@ -193,9 +193,13 @@
   </build>
   <dependencyManagement>
     <dependencies>
-      <!-- Force Tomcat 8.5.51 to fix CVE-2020-1938 (GHSA-c9hw-wf7x-jp9j),
-           which affects the 8.0.26 artifacts pulled in by
-           spring-boot-starter-tomcat ${spring-boot.version}. -->
+      <!-- Force a supported Tomcat release. 8.5.x reached end of life at
+           8.5.100 with a number of advisories left unpatched, so the pin
+           tracks the 9.0.x line. 9.0.121 is the lowest 9.0.x release that
+           clears every advisory currently reported against these artifacts,
+           including CVE-2020-1938 (GHSA-c9hw-wf7x-jp9j). The versions
+           resolved by spring-boot-starter-tomcat ${spring-boot.version}
+           would otherwise be 8.0.26. -->
       <dependency>
         <groupId>org.apache.tomcat.embed</groupId>
         <artifactId>tomcat-embed-core</artifactId>
