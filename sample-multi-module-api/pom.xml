@@ -11,6 +11,7 @@
   <description>sample api module for the multi-module test project</description>
   <properties>
     <war.name>sample-multi-module</war.name>
+    <tomcat.version>8.5.51</tomcat.version>
   </properties>
   <profiles>
     <!-- Jenkins by default defines a property BUILD_NUMBER which is used to
@@ -68,6 +69,14 @@
       <artifactId>spring-boot-starter-tomcat</artifactId>
       <version>${spring-boot.version}</version>
       <scope>provided</scope>
+      <exclusions>
+        <!-- tomcat-embed-logging-juli is not published for Tomcat 8.5.x; its
+             classes are bundled in tomcat-embed-core from 8.5.0 onwards. -->
+        <exclusion>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-logging-juli</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -182,5 +191,26 @@
       </plugins>
     </pluginManagement>
   </build>
-  <dependencyManagement />
+  <dependencyManagement>
+    <dependencies>
+      <!-- Force Tomcat 8.5.51 to fix CVE-2020-1938 (GHSA-c9hw-wf7x-jp9j),
+           which affects the 8.0.26 artifacts pulled in by
+           spring-boot-starter-tomcat ${spring-boot.version}. -->
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-el</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-websocket</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
