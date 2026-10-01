@@ -182,5 +182,4 @@
       </plugins>
     </pluginManagement>
   </build>
-  <dependencyManagement />
 </project>
