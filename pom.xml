@@ -130,4 +130,14 @@
     <module>sample-multi-module-model</module>
     <module>sample-multi-module-api</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>6.2.19</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

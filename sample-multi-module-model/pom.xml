@@ -23,4 +23,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>6.2.19</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
